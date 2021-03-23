@@ -1,0 +1,14 @@
+[Unit]
+Description=Parsedmarc recurrent job
+After=network.target
+# Wants=elasticsearch.service
+# After=elasticsearch.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/opt/parsedmarc/bin/pre-run.sh
+ExecStart=/opt/parsedmarc/.venv/bin/parsedmarc --silent --config-file /etc/parsedmarc/parsedmarc.conf --log-file /opt/parsedmarc/last.log /opt/parsedmarc/cache/*
+ExecStartPost=/opt/parsedmarc/bin/post-run.sh
+
+[Install]
+WantedBy=multi-user.target
